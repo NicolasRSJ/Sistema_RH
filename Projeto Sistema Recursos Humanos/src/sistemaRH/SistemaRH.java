@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import empresa.Empresa;
 import funcionario.Funcionario;
 
 public class SistemaRH {
@@ -25,8 +24,6 @@ public class SistemaRH {
 		System.out.println("Nome: ");
 		String nome = scanner.next();
 		System.out.println("Senha: ");
-		int senha = scanner.nextInt();
-		System.out.println("Matr�cula: ");
 		int matricula = scanner.nextInt();
 		System.out.println("Cargo: ");
 		String cargo = scanner.next();
@@ -40,7 +37,7 @@ public class SistemaRH {
 		scanner.close();
 		
 		// Criando um novo funcionário com os dados solicitados.
-		Funcionario funcionario = new Funcionario( 0, nome, senha, matricula, cargo, salario, dataContratacao, setor);
+		Funcionario funcionario = new Funcionario( 0, nome, matricula, cargo, salario, dataContratacao, setor);
 		// Adicionando o funcionário criado no ArrayList funcionario.
 		this.funcionario.add(funcionario);
 		System.out.println("O novo funcionário " + funcionario + " foi criado com sucesso!");	

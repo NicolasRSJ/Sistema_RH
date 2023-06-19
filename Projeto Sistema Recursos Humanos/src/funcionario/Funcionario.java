@@ -4,17 +4,15 @@ public class Funcionario {
 	
 	private int id = 0;
 	private String nome;
-	private int senha;
 	private int matricula;
 	private String cargo;
 	private double salario;
 	private String dataContratacao;
 	private String setor;
 
-	public Funcionario(int id, String nome, int senha, int matricula, String cargo, double salario, String dataContratacao, String setor) {
+	public Funcionario(int id, String nome, int matricula, String cargo, double salario, String dataContratacao, String setor) {
 		this.id = id == 0 ? (int) ( Math.random() * 200 ) + 1 : id ;
 		this.nome = nome;
-		this.senha = senha;
 		this.matricula = matricula;
 		this.cargo = cargo;
 		this.salario = salario;
@@ -32,14 +30,6 @@ public class Funcionario {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public int getSenha() {
-		return senha;
-	}
-
-	public void setSenha(int senha) {
-		this.senha = senha;
 	}
 
 	public int getMatricula() {
@@ -86,7 +76,6 @@ public class Funcionario {
 		return "Funcionario{" +
 	            "\n  id=" + id +
 	            "\n  nome='" + nome + '\'' +
-	            "\n  senha=" + senha +
 	            "\n  matricula=" + matricula +
 	            "\n  cargo='" + cargo + '\'' +
 	            "\n  salario=" + salario +
