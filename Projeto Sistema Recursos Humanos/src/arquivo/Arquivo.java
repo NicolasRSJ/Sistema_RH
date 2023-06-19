@@ -159,14 +159,13 @@ public class Arquivo {
 				
 				int id = Integer.parseInt(partes[0].trim());
 		        String nome = partes[1].substring(partes[1].indexOf("'") + 1, partes[1].lastIndexOf("'"));
-		        int senha = Integer.parseInt(partes[2].trim());
 		        int matricula = Integer.parseInt(partes[3].trim());
 		        String cargo = partes[4].substring(partes[4].indexOf("'") + 1, partes[4].lastIndexOf("'"));
 		        double salario = Double.parseDouble(partes[5].trim());
 		        String dataContratacao = partes[6].substring(partes[6].indexOf("'") + 1, partes[6].lastIndexOf("'"));
 		        String setor = partes[7].substring(partes[7].indexOf("'") + 1, partes[7].lastIndexOf("'"));
 
-		        funcionario.add(new Funcionario(id, nome, senha, matricula, cargo, salario, dataContratacao, setor));
+		        funcionario.add(new Funcionario(id, nome, matricula, cargo, salario, dataContratacao, setor));
 			}
 			
 			return funcionario;
@@ -232,13 +231,14 @@ public class Arquivo {
 			// Estrutura de Controle: Se o id do objeto Funcionario for igual ao do dados informados pelo usuário, ele excluí os dados. 
 			if( funcionario.getId() == dados.getId() ) {
 				dadosFuncionarios.remove(dados);
+				break;
 			}
 		}
 		
 		// Estrutura de Tentativa: utilizada para reescrever os dados do arquivo "funcionarios".
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(funcionarios))){
 			for( Funcionario funcionario : dadosFuncionarios ) {
-				writer.write(dadosFuncionarios.toString());
+				writer.write(funcionario.toString());
 				writer.newLine();
 			}
 			return true;
@@ -249,22 +249,84 @@ public class Arquivo {
 	
 	@SuppressWarnings("unused")
 	// Função utilizada para realizar a exclusão dos dados de um funcionário especifico do sistema no arquivo "usuarios".
-	public boolean deletarFuncionario(Usuario dados) throws IOException {
+	public boolean deletarUsuarios(Usuario dados) throws IOException {
 		// Reutilização da Função "buscarDadosUsuarios".
 		List<Usuario> dadosUsuarios = buscarDadosUsuarios();
 		
 		// Estrutura de Repetição: que percorre o objeto "Usuario" na lista "dadosUsuarios".
 		for ( Usuario usuario : dadosUsuarios ) {
-			// Estrutura de Controle: Se o id do objeto Usuario for igual ao do dados informados pelo usuário, ele excluí os dados. 
+			// Estrutura de Controle: Se a matrícula do objeto Usuario for igual ao do dados informados pelo usuário, ele excluí os dados. 
 			if( usuario.getMatricula() == dados.getMatricula() ) {
 				dadosUsuarios.remove(dados);
+				break;
 			}
 		}
 		
 		// Estrutura de Tentativa: utilizada para reescrever os dados do arquivo "usuarios".
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(usuarios))){
 			for( Usuario usuario : dadosUsuarios ) {
-				writer.write(dadosUsuarios.toString());
+				writer.write(usuario.toString());
+				writer.newLine();
+			}
+			return true;
+		} catch (IOException e) {
+			return false;
+		}
+	}
+	
+	@SuppressWarnings("unused")
+	// Função utilizada para realizar a atualização dos dados de um funcionário especifico do sistema no arquivo "usuarios".
+	public boolean atualizarDadosFuncionarios(Funcionario dados) throws IOException {
+		// Reutilização da Função "buscarDadosFuncionarios".
+		List<Funcionario> dadosFuncionarios = buscarDadosFuncionarios();
+		
+		// Estrutura de Repetição: que percorre o objeto "Funcionario" na lista "dadosFuncionarios".
+		for ( Funcionario funcionario : dadosFuncionarios ) {
+			// Estrutura de Controle: Se o id do objeto Funcionario for igual ao do dados informados pelo usuário, ele irá atualizar os dados. 
+			if(funcionario.getId() == dados.getId()) {
+				funcionario.setNome(dados.getNome());
+				funcionario.setMatricula(dados.getMatricula());
+				funcionario.setCargo(dados.getCargo());
+				funcionario.setSalario(dados.getSalario());
+				funcionario.setDataContratacao(dados.getDataContratacao());
+				funcionario.setSetor(dados.getSetor());
+				break;
+			}
+		}
+		
+		// Estrutura de Tentativa: utilizada para reescrever os dados do arquivo "funcionarios".
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter(funcionarios))){
+			for( Funcionario funcionario : dadosFuncionarios ) {
+				writer.write(funcionario.toString());
+				writer.newLine();
+			}
+			return true;
+		} catch (IOException e) {
+			return false;
+		}
+	}
+	
+	@SuppressWarnings("unused")
+	// Função utilizada para realizar a atualização dos dados de um funcionário especifico do sistema no arquivo "usuarios".
+	public boolean atualizarDadoUsuarios(Usuario dados) throws IOException {
+		// Reutilização da Função "buscarDadosUsuarios".
+		List<Usuario> dadosUsuarios = buscarDadosUsuarios();
+		
+		// Estrutura de Repetição: que percorre o objeto "Usuario" na lista "dadosUsuarios".
+		for ( Usuario usuario : dadosUsuarios ) {
+			// Estrutura de Controle: Se a matrícula do objeto Usuario for igual ao do dados informados pelo usuário, ele irá atualizar os dados. 
+			if(usuario.getMatricula() == dados.getMatricula()) {
+				usuario.setNome(dados.getNome());
+				usuario.setMatricula(dados.getMatricula());
+				usuario.setSenha(dados.getSenha());
+				break;
+			}
+		}
+		
+		// Estrutura de Tentativa: utilizada para reescrever os dados do arquivo "usuarios".
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter(funcionarios))){
+			for( Usuario usuario : dadosUsuarios ) {
+				writer.write(usuario.toString());
 				writer.newLine();
 			}
 			return true;
