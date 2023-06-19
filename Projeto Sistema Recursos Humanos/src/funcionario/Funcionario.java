@@ -1,7 +1,8 @@
 package funcionario;
 
 public class Funcionario {
-
+	
+	private int id = 0;
 	private String nome;
 	private int senha;
 	private int matricula;
@@ -10,7 +11,8 @@ public class Funcionario {
 	private String dataContratacao;
 	private String setor;
 
-	public Funcionario(String nome, int senha, int matricula, String cargo, double salario, String dataContratacao, String setor) {
+	public Funcionario(int id, String nome, int senha, int matricula, String cargo, double salario, String dataContratacao, String setor) {
+		this.id = id == 0 ? (int) ( Math.random() * 200 ) + 1 : id ;
 		this.nome = nome;
 		this.senha = senha;
 		this.matricula = matricula;
@@ -20,6 +22,10 @@ public class Funcionario {
 		this.setor = setor;
 	}
 
+	public int getId() {
+		return id;
+	}
+	
 	public String getNome() {
 		return nome;
 	}
@@ -78,6 +84,7 @@ public class Funcionario {
 	
 	public String toString() {
 		return "Funcionario{" +
+	            "\n  id=" + id +
 	            "\n  nome='" + nome + '\'' +
 	            "\n  senha=" + senha +
 	            "\n  matricula=" + matricula +
@@ -87,5 +94,6 @@ public class Funcionario {
 	            "\n  setor='" + setor + '\'' +
 	            "\n}";
 	}
+
 
 }
