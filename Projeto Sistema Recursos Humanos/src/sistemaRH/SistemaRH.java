@@ -8,7 +8,6 @@ import empresa.Empresa;
 import funcionario.Funcionario;
 
 public class SistemaRH {
-	private Empresa empresa;
 	private List<Funcionario> funcionario;
 	
 	public SistemaRH() {
@@ -41,7 +40,7 @@ public class SistemaRH {
 		scanner.close();
 		
 		// Criando um novo funcionário com os dados solicitados.
-		Funcionario funcionario = new Funcionario(nome, senha, matricula, cargo, salario, dataContratacao, setor);
+		Funcionario funcionario = new Funcionario( 0, nome, senha, matricula, cargo, salario, dataContratacao, setor);
 		// Adicionando o funcionário criado no ArrayList funcionario.
 		this.funcionario.add(funcionario);
 		System.out.println("O novo funcionário " + funcionario + " foi criado com sucesso!");	
