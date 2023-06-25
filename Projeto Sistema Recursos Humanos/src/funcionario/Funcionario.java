@@ -1,5 +1,7 @@
 package funcionario;
 
+import java.util.Random;
+
 public class Funcionario {
 	
 	private int id = 0;
@@ -73,7 +75,7 @@ public class Funcionario {
 	}
 	
 	public String toString() {
-		return "Funcionario{" +
+		return "\nFuncionario{" +
 	            "\n  id=" + id +
 	            "\n  nome='" + nome + '\'' +
 	            "\n  matricula=" + matricula +
@@ -83,6 +85,11 @@ public class Funcionario {
 	            "\n  setor='" + setor + '\'' +
 	            "\n}";
 	}
+	
+//	static int gerarCod() {
+//		Random random = new Random(1000);
+//		int numRandom = random.nextInt(1000);
+//	}
 
 
 }

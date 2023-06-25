@@ -16,8 +16,8 @@ public class Arquivo {
 	
 	private List<Funcionario> funcionario;
 	private List<Usuario> usuario;
-	private File funcionarios = new File("./dados/funcionarios.txt");
-	private File usuarios = new File("./dados/usuarios.txt");
+	private File funcionarios = new File("funcionarios.txt");
+	private File usuarios = new File("usuarios.txt");
 
 	// Método que realiza a verificação se os arquivos necessários para o sistema
 	// funcionar existem.
@@ -140,7 +140,7 @@ public class Arquivo {
 	
 	// Função utilizada para realizar a busca dos dados dos funcionários no arquivo "funcionários".
 	public List<Funcionario> buscarDadosFuncionarios() throws IOException {
-		
+		System.out.println("Entrou no buscar dados");
 		// Essa instaciação por fora é importante para tratativa que é realizada no "finally"
 		FileReader lerArquivo = null;
 		BufferedReader tratarLeitura = null;
@@ -153,6 +153,7 @@ public class Arquivo {
 			tratarLeitura = new BufferedReader(lerArquivo);
 			String linha; // Variável que irá guardar o que está escrito em uma linha do arquivo.			
 			
+			System.out.println("Entrou no buscar");
 			//Estrutura de Controle: está estrutura ficará em execução enquanto a variável "linha" for diferente de null.
 			while((linha = tratarLeitura.readLine()) != null) {
 				String[] partes = linha.split(",");

@@ -34,15 +34,17 @@ public class Main {
 
 			do {
 				console.interfaceMenu();
-				System.out.println("\nInforme a sua opção: ");
+				System.out.print("\nInforme a sua opção: ");
 				opcao = scan.nextInt();
 
 				switch (opcao) {
 				case 1: // Inserir funcionário
+					System.out.println("\n=-=-=-=-=-=- ADMITIR FUNCIONÁRIO =-=-=-=-=-=-");
 					sistemaRh.cadastrarFuncionario();
 					break;
 					
 				case 2: // Atualizar funcionário
+					System.out.println("\n=-=-=-=-=-=- ALTERAR SALÁRIO =-=-=-=-=-=-");
 					System.out.println("1 - Atualizar o salário de todos os funcionários");
 					System.out.println("2 - Atualizar o salário por um determinado setor");
 					
@@ -51,8 +53,24 @@ public class Main {
 					
 					switch (opcaoSalario) {
 					case 1:
+						System.out.println("\n____________ ALTERAR SALÁRIO DE TODOS OS FUNCIONÁRIOS ____________");
+						System.out.print("Informe o percentual de aumento: ");
+						double percentualTdsFuncs = scan.nextDouble();
+						
+						sistemaRh.alterarSalarioDeTodos(percentualTdsFuncs);
+						
 						break;
 					case 2:
+						System.out.println("\n____________ ALTERAR SALÁRIO POR SETOR ____________");
+						
+						System.out.print("Informe o setor: ");
+						String setor = scan.next();
+						
+						System.out.print("Informe o percentual de aumento: ");
+						double percentualSetor = scan.nextDouble();
+						
+						sistemaRh.alterarSalarioPorSetor(setor, percentualSetor);
+						
 						break;
 					default:
 						System.err.println("[OPS] - Opção inválida!");
@@ -61,30 +79,38 @@ public class Main {
 					break;
 					
 				case 3: // Remover funcionário
+					System.out.println("\n=-=-=-=-=-=- DEMITIR FUNCIONÁRIO =-=-=-=-=-=-");
 					break;
 					
 				case 4: // Gerar Relatórios
+					System.out.println("\n=-=-=-=-=-=- RELATÓRIOS =-=-=-=-=-=-");
 					System.out.println("1 - Funcionários acima da Média Salarial");
 					System.out.println("2 - Funcionários por setor");
 					System.out.println("3 - Funcionários por anos de empresa");
+					
+					System.out.print("Informe sua opção: ");
 					int opcaoRelatorios = scan.nextInt();
 					
 					switch (opcaoRelatorios) {
 					case 1:
+						System.out.println("\n____________ Acima da Média Salarial ____________");
+						
+						sistemaRh.listarFuncionariosAcimaMedia();
 						break;
 					case 2:
-						List<Funcionario> funcionarios;
-						funcionarios = arquivo.buscarDadosFuncionarios();
+						System.out.println("\n____________ Funcionários por setor ____________");
+						System.out.print("Informe o setor: ");
+						String setor = scan.next();
 						
-						
-						System.out.println("passou");
-						
-						for(Funcionario func : funcionarios) {
-							System.out.println(func.toString());
-							System.out.println("-----------------");
-						}
+						sistemaRh.listarFuncionariosPorSetor(setor);
 						break;
 					case 3:
+						System.out.println("\n____________ Funcionários por anos de empresa ____________");
+						System.out.print("Informe a quantidade de anos: ");
+						int quantAnos = scan.nextInt();
+						
+						sistemaRh.listarFuncionariosPorAnos(quantAnos);
+						
 						break;
 					default:
 						System.err.println("[OPS] - Opção inválida!");
@@ -92,6 +118,11 @@ public class Main {
 					}
 					break;
 					
+				case 0:
+					System.out.println("\n=-=-=-=-=-=- SAIR =-=-=-=-=-=-");
+					System.out.println("\nSaindo...");
+					System.out.println("Obrigado por utilizar o sistema!");
+					break;
 				default:
 					System.out.println("[OPÇÃO INVÁLIDA!]");
 				}
