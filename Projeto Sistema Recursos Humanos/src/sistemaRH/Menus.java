@@ -21,7 +21,7 @@ public class Menus {
 		System.out.println("##    2 - Atualizar Salário                ##");
 		System.out.println("##    3 - Demitir  Funcionário             ##");
 		System.out.println("##    4 - Gerar Relatórios Funcionário     ##");
-		System.out.println("##    0 - SAIR     						   ##");
+		System.out.println("##    0 - SAIR                             ##");
 		System.out.println("##                                         ##");
 		System.out.println("#############################################");
 	}

@@ -200,15 +200,15 @@ public class Arquivo {
  	           String[] campos = linha.split(",");
  	            
                 // Verifica se a linha possui todos os campos esperados
-                if (campos.length == 7) {
+                if (campos.length == 3) {
                 	
-                    String nome = campos[1];
-                    int matricula = Integer.parseInt(campos[2]);
-                    int senha = Integer.parseInt(campos[0]);
+                    String nome = campos[0];
+                    int matricula = Integer.parseInt(campos[1]);
+                    int senha = Integer.parseInt(campos[2]);
                     
                     usuario.add(new Usuario(nome, matricula, senha));
                 } else {
-                    System.out.println("Linha inválida: " + linha);
+                	System.out.println("Linha inválida: " + linha);
                 }
             }
             
@@ -223,9 +223,7 @@ public class Arquivo {
 	
 	@SuppressWarnings("unused")
 	// Função utilizada para realizar a exclusão dos dados de um funcionário especifico do sistema no arquivo "funcionario".
-	public boolean deletarFuncionario(Funcionario dados) throws IOException {
-		// Reutilização da Função "buscarDadosUsuarios".
-	    List<Funcionario> dadosFuncionario = buscarDadosFuncionarios();
+	public boolean deletarFuncionario(Funcionario dados, List<Funcionario> dadosFuncionario) throws IOException {
 
 	    // Estrutura de Repetição: que percorre o objeto "Usuario" na lista "dadosUsuarios".
 	    Iterator<Funcionario> iterator = dadosFuncionario.iterator();
@@ -254,9 +252,7 @@ public class Arquivo {
 	
 	@SuppressWarnings("unused")
 	// Função utilizada para realizar a exclusão dos dados de um funcionário especifico do sistema no arquivo "usuarios".
-	public boolean deletarUsuarios(Usuario dados) throws IOException {
-	    // Reutilização da Função "buscarDadosUsuarios".
-	    List<Usuario> dadosUsuarios = buscarDadosUsuarios();
+	public boolean deletarUsuarios(Usuario dados, List<Usuario> dadosUsuarios) throws IOException {
 
 	    // Estrutura de Repetição: que percorre o objeto "Usuario" na lista "dadosUsuarios".
 	    Iterator<Usuario> iterator = dadosUsuarios.iterator();
@@ -272,6 +268,8 @@ public class Arquivo {
 	            iterator.remove();
 	            break;
 	        }
+	        
+	        
 	    }
 
 	    // Estrutura de Tentativa: utilizada para reescrever os dados do arquivo "usuarios".
@@ -289,9 +287,8 @@ public class Arquivo {
 	
 	@SuppressWarnings("unused")
 	// Função utilizada para realizar a atualização dos dados de um funcionário especifico do sistema no arquivo "usuarios".
-	public boolean atualizarDadosFuncionarios(Funcionario dados) throws IOException {
-		// Reutilização da Função "buscarDadosFuncionarios".
-		List<Funcionario> dadosFuncionarios = buscarDadosFuncionarios();
+	public boolean atualizarDadosFuncionarios(Funcionario dados, List<Funcionario> dadosFuncionarios) throws IOException {
+		// Reutilização da Função "buscarDadosFuncionarios".		
 		
 		// Estrutura de Repetição: que percorre o objeto "Funcionario" na lista "dadosFuncionarios".
 		for ( Funcionario funcionario : dadosFuncionarios ) {
@@ -321,9 +318,7 @@ public class Arquivo {
 	
 	@SuppressWarnings("unused")
 	// Função utilizada para realizar a atualização dos dados de um funcionário especifico do sistema no arquivo "usuarios".
-	public boolean atualizarDadoUsuarios(Usuario dados) throws IOException {
-		// Reutilização da Função "buscarDadosUsuarios".
-		List<Usuario> dadosUsuarios = buscarDadosUsuarios();
+	public boolean atualizarDadoUsuarios(Usuario dados, List<Usuario> dadosUsuarios ) throws IOException {
 		
 		// Estrutura de Repetição: que percorre o objeto "Usuario" na lista "dadosUsuarios".
 		for ( Usuario usuario : dadosUsuarios ) {
