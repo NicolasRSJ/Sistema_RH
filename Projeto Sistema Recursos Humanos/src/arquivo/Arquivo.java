@@ -1,11 +1,15 @@
 package arquivo;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.FileWriter;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -14,8 +18,8 @@ import funcionario.Usuario;
 
 public class Arquivo {
 	
-	private List<Funcionario> funcionario;
-	private List<Usuario> usuario;
+	private List<Funcionario> funcionario = new ArrayList<>();
+	private List<Usuario> usuario = new ArrayList<>();
 	private File funcionarios = new File("funcionarios.txt");
 	private File usuarios = new File("usuarios.txt");
 
@@ -27,17 +31,19 @@ public class Arquivo {
 		// existe.
 		boolean existeFuncionarios = funcionarios.exists();
 		boolean existeUsuarios = usuarios.exists();
-
+		
 		// Estrutura de Tratativa: Essa tratativo é composta por uma estrutura de
 		// IF/ELSE onde utilizamos o "createNewFile()" para criar o arquivo caso ele não
 		// exita.
-		if (existeFuncionarios && existeUsuarios == false) { // Caso os dois arquivos não existam crie os dois
+		if ((existeFuncionarios == false) && (existeUsuarios == false)) { // Caso os dois arquivos não existam crie os dois
 			funcionarios.createNewFile();
 			usuarios.createNewFile();
+			gravarDadosUsuario("Administrador do Sistema," + 2054 + "," + 2054);
 		} else if (existeFuncionarios == false) { // Caso o arquivo de Funcionários não exista ele irá criar só ele.
 			funcionarios.createNewFile();
 		} else if (existeUsuarios == false) { // Caso o arquivo de Usuários não exista ele irá criar só ele.
 			usuarios.createNewFile();
+			gravarDadosUsuario("Administrador do Sistema," + 2054 + "," + 2054);
 		}
 
 	};
@@ -140,139 +146,145 @@ public class Arquivo {
 	
 	// Função utilizada para realizar a busca dos dados dos funcionários no arquivo "funcionários".
 	public List<Funcionario> buscarDadosFuncionarios() throws IOException {
-		System.out.println("Entrou no buscar dados");
-		// Essa instaciação por fora é importante para tratativa que é realizada no "finally"
-		FileReader lerArquivo = null;
-		BufferedReader tratarLeitura = null;
-		// Inicianlizando o Array dentro da Função.
-		funcionario = null;
-		
-		// Estrutura de Tentativa: está estrutura de código tentar realizar a leitura de arquivo retornando assim uma Lista.
-		try {
-			lerArquivo = new FileReader(funcionarios);
-			tratarLeitura = new BufferedReader(lerArquivo);
-			String linha; // Variável que irá guardar o que está escrito em uma linha do arquivo.			
-			
-			System.out.println("Entrou no buscar");
-			//Estrutura de Controle: está estrutura ficará em execução enquanto a variável "linha" for diferente de null.
-			while((linha = tratarLeitura.readLine()) != null) {
-				String[] partes = linha.split(",");
-				
-				int id = Integer.parseInt(partes[0].trim());
-		        String nome = partes[1].substring(partes[1].indexOf("'") + 1, partes[1].lastIndexOf("'"));
-		        int matricula = Integer.parseInt(partes[3].trim());
-		        String cargo = partes[4].substring(partes[4].indexOf("'") + 1, partes[4].lastIndexOf("'"));
-		        double salario = Double.parseDouble(partes[5].trim());
-		        String dataContratacao = partes[6].substring(partes[6].indexOf("'") + 1, partes[6].lastIndexOf("'"));
-		        String setor = partes[7].substring(partes[7].indexOf("'") + 1, partes[7].lastIndexOf("'"));
+	    try {
+	        Scanner scanner = new Scanner(funcionarios);
 
-		        funcionario.add(new Funcionario(id, nome, matricula, cargo, salario, dataContratacao, setor));
-			}
-			
-			return funcionario;
-		} finally {
-			if (tratarLeitura != null) {
-				tratarLeitura.close(); // Finaliza o BufferedReader ou o método tratarLeitura.
-			}
+	        while (scanner.hasNextLine()) {
+	            String linha = scanner.nextLine().trim(); // Remover espaços em branco do início e do fim da linha
 
-			if (lerArquivo != null) {
-				lerArquivo.close(); // Finaliza o FileReader ou o método lerArquivo.
-			}
-		}
-		
+	            // Verificar se a linha está vazia ou contém apenas espaços em branco
+	            if (linha.isEmpty()) {
+	                continue; // Pular para a próxima iteração do loop
+	            }
+
+	            String[] campos = linha.split(",");
+
+	            // Verificar se a linha possui todos os campos esperados
+	            if (campos.length == 7) {
+	                int id = Integer.parseInt(campos[0]);
+	                String nome = campos[1];
+	                int matricula = Integer.parseInt(campos[2]);
+	                String cargo = campos[3];
+	                double salario = Double.parseDouble(campos[4]);
+	                String dataContratacao = campos[5];
+	                String setor = campos[6];
+
+	                funcionario.add(new Funcionario(id, nome, matricula, cargo, salario, dataContratacao, setor));
+	            } else {
+	                System.out.println("Linha inválida: " + linha);
+	            }
+	        }
+
+	    } catch (FileNotFoundException e) {
+	        System.out.println("Arquivo não encontrado: " + funcionarios);
+	        e.printStackTrace();
+	    }
+
+	    return funcionario;
 	}
 	
 	// Função utilizada para realizar a busca dos dados dos usuários do sistema no arquivo "usuarios".
 	public List<Usuario> buscarDadosUsuarios() throws IOException {
 		
-		// Essa instaciação por fora é importante para tratativa que é realizada no "finally"
-		FileReader lerArquivo = null;
-		BufferedReader tratarLeitura = null;
-		// Inicianlizando o Array dentro da Função.
-		usuario = null;
-		
-		// Estrutura de Tentativa: está estrutura de código tentar realizar a leitura de arquivo retornando assim uma Lista.
 		try {
-			lerArquivo = new FileReader(usuarios);
-			tratarLeitura = new BufferedReader(lerArquivo);
-			String linha; // Variável que irá guardar o que está escrito em uma linha do arquivo.			
-			
-			//Estrutura de Controle: está estrutura ficará em execução enquanto a variável "linha" for diferente de null.
-			while((linha = tratarLeitura.readLine()) != null) {
-				String[] partes = linha.split(",");
+            Scanner scanner = new Scanner(usuarios);
+            
+            while (scanner.hasNextLine()) {
+            	 String linha = scanner.nextLine().trim(); // Remover espaços em branco do início e do fim da linha
 
-		        String nome = partes[0].substring(partes[0].indexOf("'") + 1, partes[0].lastIndexOf("'"));
-		        int matricula = Integer.parseInt(partes[1].trim());
-		        int senha = Integer.parseInt(partes[2].trim());
-
-		        usuario.add(new Usuario(nome, matricula, senha));
-			}
-			
-			return usuario;
-		} finally {
-			if (tratarLeitura != null) {
-				tratarLeitura.close(); // Finaliza o BufferedReader ou o método tratarLeitura.
-			}
-
-			if (lerArquivo != null) {
-				lerArquivo.close(); // Finaliza o FileReader ou o método lerArquivo.
-			}
-		}
+ 	            // Verificar se a linha está vazia ou contém apenas espaços em branco
+ 	            if (linha.isEmpty()) {
+ 	                continue; // Pular para a próxima iteração do loop
+ 	            }
+   
+ 	           String[] campos = linha.split(",");
+ 	            
+                // Verifica se a linha possui todos os campos esperados
+                if (campos.length == 7) {
+                	
+                    String nome = campos[1];
+                    int matricula = Integer.parseInt(campos[2]);
+                    int senha = Integer.parseInt(campos[0]);
+                    
+                    usuario.add(new Usuario(nome, matricula, senha));
+                } else {
+                    System.out.println("Linha inválida: " + linha);
+                }
+            }
+            
+        } catch (FileNotFoundException e) {
+            System.out.println("Arquivo não encontrado: " + funcionarios);
+            e.printStackTrace();
+        }
+        
+        return usuario;
 		
 	}
 	
 	@SuppressWarnings("unused")
 	// Função utilizada para realizar a exclusão dos dados de um funcionário especifico do sistema no arquivo "funcionario".
 	public boolean deletarFuncionario(Funcionario dados) throws IOException {
-		// Reutilização da Função "buscarDadosFuncionarios".
-		List<Funcionario> dadosFuncionarios = buscarDadosFuncionarios();
-		
-		// Estrutura de Repetição: que percorre o objeto "Funcionario" na lista "dadosFuncionarios".
-		for ( Funcionario funcionario : dadosFuncionarios ) {
-			// Estrutura de Controle: Se o id do objeto Funcionario for igual ao do dados informados pelo usuário, ele excluí os dados. 
-			if( funcionario.getId() == dados.getId() ) {
-				dadosFuncionarios.remove(dados);
-				break;
-			}
-		}
-		
-		// Estrutura de Tentativa: utilizada para reescrever os dados do arquivo "funcionarios".
-		try (BufferedWriter writer = new BufferedWriter(new FileWriter(funcionarios))){
-			for( Funcionario funcionario : dadosFuncionarios ) {
-				writer.write(funcionario.toString());
-				writer.newLine();
-			}
-			return true;
-		} catch (IOException e) {
-			return false;
-		}
+		// Reutilização da Função "buscarDadosUsuarios".
+	    List<Funcionario> dadosFuncionario = buscarDadosFuncionarios();
+
+	    // Estrutura de Repetição: que percorre o objeto "Usuario" na lista "dadosUsuarios".
+	    Iterator<Funcionario> iterator = dadosFuncionario.iterator();
+	    while (iterator.hasNext()) {
+	        Funcionario funcionario = iterator.next();
+	        // Estrutura de Controle: Se a matrícula do objeto Usuario for igual à matrícula informada pelo usuário, ele exclui os dados. 
+	        if (funcionario.getMatricula() == dados.getMatricula()) {
+	            iterator.remove();
+	            break;
+	        }
+	    }
+
+	    // Estrutura de Tentativa: utilizada para reescrever os dados do arquivo "usuarios".
+	    try (BufferedWriter writer = new BufferedWriter(new FileWriter(funcionarios, false))) {
+	        for (Funcionario funcionario : dadosFuncionario) {
+	            writer.write(funcionario.toString());
+	            writer.newLine();
+	        }
+	        writer.close();
+	        return true;
+	    } catch (IOException e) {
+	        return false;
+	    }
 	}
+
 	
 	@SuppressWarnings("unused")
 	// Função utilizada para realizar a exclusão dos dados de um funcionário especifico do sistema no arquivo "usuarios".
 	public boolean deletarUsuarios(Usuario dados) throws IOException {
-		// Reutilização da Função "buscarDadosUsuarios".
-		List<Usuario> dadosUsuarios = buscarDadosUsuarios();
-		
-		// Estrutura de Repetição: que percorre o objeto "Usuario" na lista "dadosUsuarios".
-		for ( Usuario usuario : dadosUsuarios ) {
-			// Estrutura de Controle: Se a matrícula do objeto Usuario for igual ao do dados informados pelo usuário, ele excluí os dados. 
-			if( usuario.getMatricula() == dados.getMatricula() ) {
-				dadosUsuarios.remove(dados);
-				break;
-			}
-		}
-		
-		// Estrutura de Tentativa: utilizada para reescrever os dados do arquivo "usuarios".
-		try (BufferedWriter writer = new BufferedWriter(new FileWriter(usuarios))){
-			for( Usuario usuario : dadosUsuarios ) {
-				writer.write(usuario.toString());
-				writer.newLine();
-			}
-			return true;
-		} catch (IOException e) {
-			return false;
-		}
+	    // Reutilização da Função "buscarDadosUsuarios".
+	    List<Usuario> dadosUsuarios = buscarDadosUsuarios();
+
+	    // Estrutura de Repetição: que percorre o objeto "Usuario" na lista "dadosUsuarios".
+	    Iterator<Usuario> iterator = dadosUsuarios.iterator();
+	    while (iterator.hasNext()) {
+	        Usuario usuario = iterator.next();
+	        // Estrutura de Controle: Se a matrícula do objeto Usuario for igual à matrícula informada pelo usuário, ele exclui os dados.
+	        
+	        if(dados.getMatricula() == 2054) {
+	        	break;
+	        }
+	        
+	        if (usuario.getMatricula() == dados.getMatricula()) {
+	            iterator.remove();
+	            break;
+	        }
+	    }
+
+	    // Estrutura de Tentativa: utilizada para reescrever os dados do arquivo "usuarios".
+	    try (BufferedWriter writer = new BufferedWriter(new FileWriter(usuarios, false))) {
+	        for (Usuario usuario : dadosUsuarios) {
+	            writer.write(usuario.toString());
+	            writer.newLine();
+	        }
+	        writer.close();
+	        return true;
+	    } catch (IOException e) {
+	        return false;
+	    }
 	}
 	
 	@SuppressWarnings("unused")

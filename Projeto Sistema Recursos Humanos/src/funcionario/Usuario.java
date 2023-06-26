@@ -38,11 +38,7 @@ public class Usuario {
 
 	@Override
 	public String toString() {
-		return "Usuario{" +
-	            "\n  nome='" + nome + '\'' +
-	            "\n  matricula=" + matricula +
-	            "\n  senha=" + senha +
-	            "\n}";
+		return nome + ',' + matricula + ',' + senha + '\n';
 	}
 	
 	
